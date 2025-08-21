@@ -28,3 +28,4 @@ CLAUDE.md
 .cursorrules
 #Python
 *.pyc
+__pycache__/
