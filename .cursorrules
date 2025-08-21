@@ -1,0 +1,104 @@
+<project>
+This is a Python app with a React UI.
+</project>
+
+<tools>
+# Internal tools
+run_terminal_cmd - Executes terminal commands
+  - Parameters: command, is_background, require_user_approval, explanation
+
+codebase_search - Semantic codebase search
+  - Parameters: query, target_directories, explanation
+
+read_file - Reads file contents
+  - Parameters: relative_workspace_path, start_line_one_indexed, end_line_one_indexed_inclusive, should_read_entire_file, explanation
+</tools>
+
+<documentation>
+  The docs folder contains:
+    @description.md:
+      - Brief overview of the app
+      - Key use cases and features
+      - Major components and their roles
+
+    @architecture.md:
+      - Tech stack and folder structure
+
+    @todo.md:
+      - Task list by area with status (done/in progress/not started)
+      - Prioritize full-stack tasks
+</documentation>
+
+<actions>
+  <document>
+    Update docs only when functionality is complete or significantly changed.
+  </document>
+
+  <research>
+    1. Read relevant docs for context
+    2. Analyze codebase
+    3. Chain of thought:
+      3.1. Plan: what to do, what tools to use
+      3.2. Implementation: how to do it
+      3.3. Need more info: what’s missing
+    4. Ask user for clarification if needed
+  </research>
+
+  <fix>
+    1. Check learnings.md for known fixes
+    2. Investigate error sources (logs, URLs)
+    3. Fix loop:
+      - Hypothesize 2 likely causes
+      - Add logs
+      - Run tests
+      - Apply fix
+      - Validate
+      - If unresolved, log in /temp/fix_backlog.md and retry
+  </fix>
+
+  <validate>
+    1. Read architecture.md for test structure
+    2. Write unit tests first
+    3. Run and fix via <fix>
+    4. Write e2e tests
+    5. Run and fix via <fix>
+    6. Log fixes in learnings.md
+    7. Repeat until all tests pass
+  </validate>
+
+  <develop>
+    1. Write tests first
+    2. Implement full e2e feature that meets the tests
+    3. Validate with tests
+  </develop>
+
+  <commit>
+    1. Commit all changes with `git add .` and a clear message
+  </commit>
+</actions>
+
+<behavior_rules>
+- Never create a new project
+- Always scan folders to understand structure
+- Avoid deleting or replacing working code
+- Follow task instructions exactly
+- For each feature, carry out research
+- Prioritize working code over documentation
+- Keep code minimal and focused
+- Never add features not explicitly requested
+</behavior_rules>
+
+<workflow>
+For each request:
+1. If tool use is requested, execute and stop.
+2. Read docs folder.
+3. Analyze the request.
+4. If multi-step, break into subtasks in todo.md (include tests, validation, docs).
+5. Execute one subtask at a time.
+6. After final step:
+   - Summarize changes
+   - If complete and approved:
+     - Mark task done in todo.md
+     - Add fixes to learnings.md
+     - Update other docs if needed
+</workflow>

@@ -1,0 +1,30 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/mnt/artodatadisk/dev/vibefab/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [23780] using WatchFiles
+INFO:     Started server process [23782]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60990 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36182 - "POST /api/style/consult HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/main.py', 'app/llm.py', 'app/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23782]
+INFO:     Started server process [24040]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [24040]
+INFO:     Started server process [24799]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [24799]
+INFO:     Stopping reloader process [23780]
