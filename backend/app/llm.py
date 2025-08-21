@@ -27,24 +27,54 @@ async def consult_style_with_llm(
 
 
 def _build_messages(system_prompt: str, image_b64: str, image_mime: str, occasion: str):
-    return [
-        {
-            "role": "system",
-            "content": system_prompt,
-        },
-        {
-            "role": "user",
-            "content": [
-                {"type": "text", "text": f"Act as my personal style consultant for: {occasion}."},
-                {
-                    "type": "input_image",
-                    "image_url": {
-                        "url": f"data:{image_mime};base64,{image_b64}",
+    # Check if using Claude model (Anthropic format)
+    model = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o")
+    
+    if "claude" in model.lower() or "anthropic" in model.lower():
+        # Claude format
+        return [
+            {
+                "role": "system",
+                "content": system_prompt,
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": image_mime,
+                            "data": image_b64,
+                        },
                     },
-                },
-            ],
-        },
-    ]
+                    {
+                        "type": "text",
+                        "text": f"Please analyze my photo and provide complete style recommendations for: {occasion}. Include your assessment of my features, seasonal color analysis, and specific clothing/accessory suggestions for this occasion.",
+                    },
+                ],
+            },
+        ]
+    else:
+        # OpenAI format
+        return [
+            {
+                "role": "system",
+                "content": system_prompt,
+            },
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": f"Please analyze my photo and provide complete style recommendations for: {occasion}. Include your assessment of my features, seasonal color analysis, and specific clothing/accessory suggestions for this occasion."},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:{image_mime};base64,{image_b64}",
+                        },
+                    },
+                ],
+            },
+        ]
 
 
 async def _call_openai(*, image_b64: str, image_mime: str, occasion: str, system_prompt: str) -> str:
@@ -85,6 +115,10 @@ async def _call_openrouter(*, image_b64: str, image_mime: str, occasion: str, sy
     url = "https://openrouter.ai/api/v1/chat/completions"
 
     messages = _build_messages(system_prompt, image_b64, image_mime, occasion)
+    
+    print(f"OpenRouter request - Model: {model}")
+    print(f"Image mime: {image_mime}")
+    print(f"Image data URL prefix: {f'data:{image_mime};base64,{image_b64[:50]}...'}")
 
     headers = {
         "Authorization": f"Bearer {api_key}",

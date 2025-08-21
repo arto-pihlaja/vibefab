@@ -3,7 +3,10 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+
+load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -65,8 +68,13 @@ async def style_consult(
     if not raw:
         raise HTTPException(status_code=400, detail="Empty image upload")
 
+    print(f"Image info: filename={image.filename}, mime={image.content_type}, size={len(raw)} bytes")
+    
     encoded = base64.b64encode(raw).decode("utf-8")
     mime = image.content_type
+    
+    print(f"Base64 encoded length: {len(encoded)}")
+    print(f"Base64 preview: {encoded[:100]}...")
 
     # Load system prompt once per request (simple for now)
     system_prompt = load_system_prompt()
