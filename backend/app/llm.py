@@ -115,10 +115,6 @@ async def _call_openrouter(*, image_b64: str, image_mime: str, occasion: str, sy
     url = "https://openrouter.ai/api/v1/chat/completions"
 
     messages = _build_messages(system_prompt, image_b64, image_mime, occasion)
-    
-    print(f"OpenRouter request - Model: {model}")
-    print(f"Image mime: {image_mime}")
-    print(f"Image data URL prefix: {f'data:{image_mime};base64,{image_b64[:50]}...'}")
 
     headers = {
         "Authorization": f"Bearer {api_key}",
